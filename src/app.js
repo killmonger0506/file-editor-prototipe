@@ -1,4 +1,5 @@
-require('dotenv').config();
+//require('dotenv').config();
+
 const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 import express from 'express';
 import routes from './routes';
@@ -11,6 +12,7 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
