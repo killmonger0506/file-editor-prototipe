@@ -3,8 +3,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 
-console.log("aquiiiiiiiii", process.env.DB_DATABASE);
-
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,
   process.env.DB_USERNAME,

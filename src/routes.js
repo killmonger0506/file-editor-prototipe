@@ -4,6 +4,7 @@ import userRoutes from './modules/user/user.routes';
 import countryRoutes from './modules/country/country.routes';
 import cityRoutes from './modules/city/city.routes';
 import stateRoutes from './modules/state/state.routes';
+import editorRoutes from './modules/editor/editor.routes';
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.use('/user', userRoutes);
 router.use('/country', countryRoutes);
 router.use('/state', stateRoutes);
 router.use('/city', cityRoutes);
+router.use('/editor', editorRoutes);
 
 
 export default router;
