@@ -2,12 +2,18 @@ const Editor  = require('../editor/editor.models');
 const {uploadFile}  = require('../s3/s3.controller');
 
 
-  const get_editors = (req, res, next) => {
+    const test_send_file = (req, res) => {
+        let imgs = req.files == null ? undefined : req.files[Object.keys(req.files)[0]];
 
-    return Editor.findAll({})
-    .then(data => res.status(200).send(data))
-    .catch(error => res.status(400).send(error))
-  }
+        return res.status(200).send(imgs)
+    }
+
+    const get_editors = (req, res, next) => {
+
+        return Editor.findAll({})
+        .then(data => res.status(200).send(data))
+        .catch(error => res.status(400).send(error))
+    }
 
 
   // Uploads files to s3
@@ -92,5 +98,6 @@ const {uploadFile}  = require('../s3/s3.controller');
 module.exports = {
     get_editors,
     upload_img,
-    create_editor
+    create_editor,
+    test_send_file
 }
