@@ -1,7 +1,7 @@
 const Country  = require('../country/country.models'); // Uso del modelo para los usuarios
 
 
-  const get_countrys = (req, res, next) => {
+  const get_countries = (req, res, next) => {
 
     return Country.findAll({
         attributes: ['id', 'name']
@@ -13,5 +13,5 @@ const Country  = require('../country/country.models'); // Uso del modelo para lo
   }
 
 module.exports = {
-    get_countrys
+    get_countries
 }
