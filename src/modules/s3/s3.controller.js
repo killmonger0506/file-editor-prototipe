@@ -109,9 +109,9 @@ const uploadFile = async (data) => {
         const { Location, Key } = await s3.upload(params).promise();
         location = Location;
         key = Key;
-        console.log("Store file".green, location);
+        console.log("Store file success", location);
     } catch (error) {
-        console.log("Error upload file".red,error)
+        console.log("Error upload file", error)
     }
 
     // Save the Location (url) to your database and Key if needs be.

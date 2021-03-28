@@ -3,9 +3,9 @@ const {uploadFile}  = require('../s3/s3.controller');
 
 
     const test_send_file = (req, res) => {
-        let imgs = req.files == null ? undefined : req.files[Object.keys(req.files)[0]];
+        let imgs = !req.files ? undefined : req.files[Object.keys(req.files)[0]];
 
-        return res.status(200).send(imgs)
+        return res.status(200).json(imgs);
     }
 
     const get_editors = (req, res, next) => {
@@ -19,53 +19,75 @@ const {uploadFile}  = require('../s3/s3.controller');
   // Uploads files to s3
   const upload_img = async (req, res) => {
 
-    let imgs = req.files == null ? undefined : req.files[Object.keys(req.files)[0]];
-    const archives = []
+    let imgs = !req.files ? undefined : req.files[Object.keys(req.files)[0]];
+    // const archives = []
     
-    if(imgs != null){
+    // if (imgs){
 
-        // Quiere decir que solo hay uno
-        if(imgs.length == undefined){
+    //     // Quiere decir que solo hay uno
+    //     if(imgs.length == undefined){
 
+            // let newName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            // let data = {
+            //     file: imgs.data ,
+            //     contentType: imgs.mimetype,
+            //     name: 'users/01987/' + newName
+            // }
+    //         archives.push(data)
+    //     }else{
+    //         imgs.forEach(photo => {
+    //             let newName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                
+    //             let data = {
+    //                 file: photo.data,
+    //                 contentType: photo.mimetype,
+    //                 name: 'users/01987/' + newName
+    //             }
+    //             archives.push(data)
+    //         });
+    //     }   
+
+    //     var finish = []
+
+    //     archives.forEach(info => {
+            
+    //         uploadFile(info)
+    //         finish.push(
+    //             `${process.env.SPACES_URL}/${info.name}`
+    //         )
+    //     });
+    // }
+
+    // let data = {
+    //     url_img: finish
+    // }
+
+    if (imgs) {
+        try {
             let newName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             let data = {
-
                 file: imgs.data ,
                 contentType: imgs.mimetype,
                 name: 'users/01987/' + newName
             }
-            archives.push(data)
-        }else{
-            imgs.forEach(photo => {
-                let newName = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                
-                let data = {
-                    file: photo.data,
-                    contentType: photo.mimetype,
-                    name: 'users/01987/' + newName
-                }
-                archives.push(data)
+            const serverImg = await uploadFile(data);
+            console.log('return from s3 upload =>> ', serverImg);
+            return res.status(200).json({
+                "uploaded": true,
+                "url": serverImg,
             });
-        }   
-
-        var finish = []
-
-        archives.forEach(info => {
-            
-            uploadFile(info)
-            finish.push(
-                `${process.env.SPACES_URL}/${info.name}`
-            )
-        });
+        } catch (err) {
+            console.log('error on upload image => ', err);
+            return res.status(409).json({
+                "uploaded": false,
+                "error": {
+                    "message": "could not upload this image"
+                }
+            });
+        }
     }
 
-    let data = {
-        url_img: finish
-    }
-
-    return res.status(200).send(data)
-
-
+    // return res.status(200).send(data)
   }
 
   // Create Editor
